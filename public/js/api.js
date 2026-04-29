@@ -13,12 +13,15 @@ const API = {
     const data = await res.json();
     return data.models || [];
   },
-  async chatCompletions({ model, messages, onChunk, onDone, onError }) {
+  async chatCompletions({ model, messages, thinking, reasoning_effort, onChunk, onDone, onError }) {
     const controller = new AbortController();
     try {
+      const body = { model, messages, stream: true };
+      if (thinking !== undefined) body.thinking = thinking;
+      if (reasoning_effort) body.reasoning_effort = reasoning_effort;
       const response = await fetch('/api/chat/completions', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, messages, stream: true }),
+        body: JSON.stringify(body),
         signal: controller.signal,
       });
       if (!response.ok) {
