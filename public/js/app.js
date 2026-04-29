@@ -3,6 +3,7 @@ const App = {
   async init() {
     ChatUI.init(); Markdown.init();
     this.applyTheme();
+    this.applyMaxMode();
     await this.loadModels();
     this.loadConversations();
     this.loadActiveConversation();
@@ -16,6 +17,20 @@ const App = {
     if (t) t.checked = dm;
   },
   toggleTheme() { Storage.setDarkMode(!Storage.getDarkMode()); this.applyTheme(); },
+  applyMaxMode() {
+    const mm = Storage.getMaxMode();
+    const btn = document.getElementById('btnMaxMode');
+    if (btn) {
+      btn.classList.toggle('active', mm);
+      btn.title = mm ? 'Max ON: reasoning_effort=max' : 'Max: DeepSeek thinking (reasoning_effort=max)';
+    }
+  },
+  toggleMaxMode() {
+    const mm = !Storage.getMaxMode();
+    Storage.setMaxMode(mm);
+    this.applyMaxMode();
+    ChatUI.showToast(mm ? 'Max mode ON - Deep thinking' : 'Max mode OFF');
+  },
   async loadModels() {
     try {
       const models = await API.getModels();
@@ -59,9 +74,11 @@ const App = {
     const uc = Storage.getConversation(conv.id);
     const msgs = (uc?.messages || []).map(m => ({ role: m.role, content: m.content }));
     const sui = ChatUI.addAssistantMessageStream();
+    const maxMode = Storage.getMaxMode();
+    const extraParams = maxMode ? { thinking: { type: 'enabled' }, reasoning_effort: 'max' } : {};
     try {
       this.abortController = await API.chatCompletions({
-        model: sm, messages: msgs,
+        model: sm, messages: msgs, ...extraParams,
         onChunk: (c) => { if (c.content) sui.update(c.content); },
         onDone: () => {
           const fc = sui.finish();
@@ -97,6 +114,7 @@ const App = {
     document.getElementById('btnClearChat')?.addEventListener('click', () => this.clearCurrentChat());
     document.getElementById('modelSelect')?.addEventListener('change', (e) => Storage.setSelectedModel(e.target.value));
     document.getElementById('toggleDarkMode')?.addEventListener('change', () => this.toggleTheme());
+    document.getElementById('btnMaxMode')?.addEventListener('click', () => this.toggleMaxMode());
     document.getElementById('btnMenu')?.addEventListener('click', () => this.toggleSidebar());
     document.getElementById('btnToggleSidebar')?.addEventListener('click', () => this.toggleSidebar());
     document.getElementById('sidebarOverlay')?.addEventListener('click', () => this.closeSidebar());
