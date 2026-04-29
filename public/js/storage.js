@@ -4,6 +4,7 @@ const Storage = {
     ACTIVE_CONV_ID: 'chatflow_active_conv',
     DARK_MODE: 'chatflow_dark_mode',
     SELECTED_MODEL: 'chatflow_selected_model',
+    MAX_MODE: 'chatflow_max_mode',
   },
   getConversations() {
     try { return JSON.parse(localStorage.getItem(this.KEYS.CONVERSATIONS) || '[]'); } catch { return []; }
@@ -53,4 +54,6 @@ const Storage = {
   setDarkMode(e) { localStorage.setItem(this.KEYS.DARK_MODE, String(e)); },
   getSelectedModel() { return localStorage.getItem(this.KEYS.SELECTED_MODEL) || ''; },
   setSelectedModel(m) { localStorage.setItem(this.KEYS.SELECTED_MODEL, m); },
+  getMaxMode() { return localStorage.getItem(this.KEYS.MAX_MODE) === 'true'; },
+  setMaxMode(e) { localStorage.setItem(this.KEYS.MAX_MODE, String(e)); },
 };
