@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>ChatFlow - AI Chat</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h1 class="logo">ChatFlow</h1>
+<button class="btn-icon" id="btnToggleSidebar" title="Toggle">&#9664;</button>
+</div>
+<button class="btn-new-chat" id="btnNewChat">+ New Chat</button>
+<div class="conversation-list" id="conversationList"></div>
+<div class="sidebar-footer">
+<div class="footer-row">
+<span class="footer-label">Dark Mode</span>
+<label class="toggle-switch"><input type="checkbox" id="toggleDarkMode" checked><span class="toggle-slider"></span></label>
+</div>
+<div class="footer-row">
+<a href="https://github.com/QuantumNous/new-api" target="_blank" class="footer-link">New-API</a>
+</div>
+</div>
+</aside>
+<main class="chat-main">
+<header class="chat-header">
+<button class="btn-icon btn-menu" id="btnMenu" title="Menu">&#9776;</button>
+<div class="header-center">
+<select class="model-select" id="modelSelect"></select>
+</div>
+<div class="header-actions">
+<button class="btn-icon" id="btnClearChat" title="Clear">&#128465;</button>
+</div>
+</header>
+<div class="chat-messages" id="chatMessages">
+<div class="welcome-screen" id="welcomeScreen">
+<div class="welcome-icon">&#127754;</div>
+<h2>Welcome to ChatFlow</h2>
+<p>Supports OpenAI, Claude, Gemini, New-API and more</p>
+<div class="quick-prompts">
+<button class="quick-prompt" data-prompt="Hello! Please introduce yourself.">Say Hello</button>
+<button class="quick-prompt" data-prompt="Write a quicksort algorithm in Python">Write Code</button>
+<button class="quick-prompt" data-prompt="Explain what machine learning is in simple terms">Explain Concept</button>
+<button class="quick-prompt" data-prompt="Translate to English: AI is changing the world">Translate Text</button>
+</div>
+</div>
+</div>
+<div class="chat-input-area">
+<div class="input-container">
+<textarea class="chat-input" id="chatInput" placeholder="Type a message... (Enter to send, Shift+Enter for new line)" rows="1"></textarea>
+<button class="btn-send" id="btnSend" title="Send">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+</button>
+</div>
+<div class="input-info">
+<span id="statusText">Ready</span>
+<span class="input-hint">Enter to send - Shift+Enter for new line</span>
+</div>
+</div>
+</main>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="/js/storage.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/markdown.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
